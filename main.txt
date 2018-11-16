@@ -1,0 +1,59 @@
+DHCP服务器:自动分配ip地址
+
+Linux简介:
+Linux是一套免费使用和自由传播的类Unix操作系统，是一个基于POSIX和UNIX的多用户、多任务、支持多线程和多CPU的操作系统。
+Linux能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。
+
+通常服务器使用LAMP（Linux + Apache + MySQL + PHP）或LNMP（Linux + Nginx+ MySQL + PHP）组合。
+
+Linux文件系统:
+	swap(文件交换系统相当于虚拟内存)
+
+cat /etc/redhat-release:
+	查看系统的版本
+
+重点:
+mount挂载操作	XXX
+访问虚拟机	XXX
+     |
+     |
+yum软件源	XXX
+day04
+管理用户	XXX
+find		***
+day05
+NTP时间同步	XXX
+CROM计划任务	XXX
+day06
+LDAP目录服务	***
+day07
+综合测试	***
+
+配置yum	XXX
+逻辑卷,扩展分区......
+dhcp:动态/自动分发ip地址	XXX
+面试葵花宝典
+破解classroom密码
+ftp共享数据 --server
+路由器 ping
+Cobbler装机平台,不同版本的多系统的安装
+PXE-Server装机
+***Shell
+1.脚本编写yum,ftp程序	XXX
+expect预期交互	XXX
+awk案例分析	XXX
+
+Nginx:
+重定向	XXX
+IP访问	XXX
+lnmp.soft --> buffer
+session共享***
+ 
+
+
+
+
+交换机参数设置
+
+rsync复制与同步的使用nginxday04
+分布式存储
