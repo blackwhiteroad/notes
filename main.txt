@@ -48,12 +48,36 @@ Nginx:
 IP访问	XXX
 lnmp.soft --> buffer
 session共享***
- 
+rpm包制作安装 
+ceph
+闰秒的危害
 
+cluster:
+iscs
+lvs(性能比nginx优)+keeppalived	调度切换
+ceph分布式存储
+multipath多路径
 
+mysql
+innodb
+二叉树算法实现 
+mysql索引
+多表查询,where子查询,连接查询
+主外键及其相关知识
+php图形数据库交互工具	navicat
+mysql用户授权与开发人员的交互
+数据完全备份与恢复	mysqldump/mysql
+数据实时增量备份与恢复	binlog日志/innobackupex
+热备::innobackupex
+1主多从,主从从
 
+私有IP地址分类
+TCP.UDP端口分类
+
+cp详细指令
 
 交换机参数设置
 
 rsync复制与同步的使用nginxday04
 分布式存储
+数据挖掘(分析工具)awk,sed
