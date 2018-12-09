@@ -1,0 +1,105 @@
+***linux系统环境变量及用户环境变量的配置
+环境变量就是系统或软件设置的一些参数，用户环境变量就是用户登录系统后，都有自已专用的运行环境。
+linux环境变量和Windows的环境变量一样，分系统环境变量和用户环境变量，系统环境变量对所有用户有效，而用户环境变量只对当前用户有效，下面以jdk为例进行两种环境变量的配置。
+1.系统环境变量配置
+注：修改 /etc/profile 文件，如果你的计算机仅仅作为开发使用时推存使用这种方法，因为所有用户的shell都有权使用这个环境变量，可能会给系统带来安全性问题。这里是针对所有的用户的，所有的shell在/etc/profile的最下面添加：  export  PATH="$PATH:/NEW_PATH"
+相当于系统级：
+（1）/etc/profile：该文件是用户登录时，操作系统定制用户环境时使用的第一个文件，应用于登录到系统的每一个用户。该文件一般是调用/etc/bash.bashrc文件。
+    /etc/bash.bashrc：系统级的bashrc文件。
+（2）/etc/environment:在登录时操作系统使用的第二个文件,系统在读取你自己的profile前,设置环境文件的环境变量。
+**具体操作步骤如下：
+1>执行 vim /etc/profile，JAVA_HOME为jdk所在目录：
+root]# vim /etc/profile
+JAVA_HOME=/app/jdk/jdk1.8.0_191
+export PATH=$JAVA_HOME/bin:$PATH
+2>保存后执行source /etc/profile立即生效，执行java -version，出现jdk版本信息说明配置成功：
+root]# source /etc/profile
+root]# java -version
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+3>当前用户为root，切换用户后，检查该配置是否也对该用户生效：
+切换为普通用户“axiba”后(注意此处要用su - 用户名)，执行java -version依然出现了jdk版本信息，说明系统环境变量确实是对所有用户有效的。
+root]su - axiba
+axiba]# java -version
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+
+2.用户环境变量配置
+注：修改.bash_profile文件，这种方法更为安全，它可以把使用这些环境变量的权限控制到用户级别，这里是针对某一特定的用户，如果你需要给某个用户权限使用这些环境变量，你只需要修改其个人用户主目录下的 .bashrc文件就可以了。
+相当于用户级（这些文件处于家目录下）：
+（1）~/.bash_profile:每个用户都可使用该文件输入专用于自己使用的shell信息,当用户登录时,该文件仅仅执行一次!默认情况下,他设置一些环境变量,执行用户的.bashrc文件。这里是推荐放置个人设置的地方
+（2）~/.bashrc:该文件包含专用于你的bash shell的bash信息,当登录时以及每次打开新的shell时,该该文件被读取。
+    ~/.pam_environment:用户级的环境变量设置文件，
+操作步骤如下：
+1>为了更好区分，普通用户切换为wajja | ahha（切换其中的一个）
+cd /home/用户名 ，进到普通用户的家目录下，可以看到用户的环境变量文件.bash_profile（该文件为隐藏文件）
+root]# cd /home/wajja
+root]# ls -a
+.  ..  .bash_logout  .bash_profile  .bashrc  .mozilla
+root]# su - wajja | ahha
+2>vim .bash_profile,JAVA_HOME为jdk所在目录：
+wajja | ahha]# vim .bash_profile
+JAVA_HOME=/home/ahha|wajja/jdk/jdk-11.0.1
+export PATH=$JAVA_HOME/bin:$PATH
+3>保存后执行 source .bash_profile立即生效，执行java -version后可以看到jdk版本为11.0，说明用户环境变量的配置生效了
+wajja | ahha]# source .bash_profile
+wajja | ahha]# java -version
+java version "11.0.1" 2018-10-16 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.1+13-LTS)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.1+13-LTS, mixed mode)
+4>当前用户为wajja | ahha，切换到其它用户后，检查该配置是否也对该用户生效：
+root]# java -version
+java version "1.8.0_191"
+Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
+可以看出，在普通用户配置的环境，不会对超级用户或者其它用户生效
+
+总结：以上为系统环境变量及用户环境变量的配置，如果既配置了系统环境变量，又配置了用户环境变量，最终会以用户环境变量的配置为准。
+
+注意：修改 /etc/profile下虽然可以使环境变量永久生效，但在系统重启时，可能不再读取/etc/profile文件中的内容，需要在执行 "source /etc/profile"之后才能使环境变量生效；为了避免重启后环境变量不生效的问题，也可以在/etc/profile.d/目录下简历一个path.sh的文件，将export命令写入其中，这样每次系统重启时，都会自动读取文件内容，使环境变量生效。
+root]# vim /etc/profile.d/path.sh
+JAVA_HOME=/app/jdk/jdk1.8.0_191
+export PATH=$JAVA_HOME/bin:$PATH
+
+一、环境变量相关操作（只应用于当前，要永久保存需要写入到相关文件。）
+#echo $PATH 显示PATH设置。
+#env 显示当前用户变量。
+#set 显示当前Shell变量。
+#export 显示当前导出成用户变量的shell变量。
+#a=abc 定义一个Shell变量。
+#export a=abc
+定义一个Shell变量，并导出成用户变量。
+#unset a 清除环境变量
+#readonly a 设置只读环境变量
+
+二、常见的环境变量
+PATH　　　　　　决定了shell将到哪些目录中寻找命令或程序
+HOME　　　　 　 当前用户主目录
+HISTSIZE　　　 　历史记录数
+LOGNAME 　　 　当前用户的登录名
+HOSTNAME　　　指主机的名称
+SHELL 　　　　　前用户Shell类型
+LANGUGE 　　　 语言相关的环境变量，多语言可以修改此环境变量
+MAIL　　　　　　当前用户的邮件存放目录
+PS1　　　　　　 基本提示符，对于root用户是#，对于普通用户是$
+PS2　　　　　　 附属提示符，默认是“>”
+
+三、Linux环境变量设置文件
+/etc/profile 全局用户，应用于所有的Shell。
+/$HOME/.profile 当前用户，应用于所有的Shell。
+/etc/bash_bashrc 全局用户，应用于Bash Shell。
+~/.bashrc 局部当前，应用于Bash Sell。
+
+四、其它
+在用户目录下用ls -a，能看见很多“.”开头的隐藏文件。
+如果不是用户建立的，那么这些文件都是环境设置文件。有其它Shell的设置文件，也有软件设置的文件。比如：.lftp，它就是lftp软件的设置文件。如果安装了x-window的话，菜单和桌面设置都在.local里面。
+
+参考资料查询网址：
+https://blog.csdn.net/chengly0129/article/details/70229615
+https://www.cnblogs.com/anny-1980/articles/3540072.html
+
+
+
+
