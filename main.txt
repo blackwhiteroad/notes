@@ -70,10 +70,13 @@ mysql用户授权与开发人员的交互
 数据实时增量备份与恢复	binlog日志/innobackupex
 热备::innobackupex
 1主多从,主从从
+mysql读写分离之备份读写分离服务器
+mysql多实例<--->DB2-2
 
 私有IP地址分类
 TCP.UDP端口分类
-
+缓存DNS,PEX服务器
+技术演讲,设备采购,背板带宽48G(24口,1G,双向),POE供电,机架式服务器,配电电源,DellR720/730
 cp详细指令
 
 交换机参数设置
@@ -81,3 +84,13 @@ cp详细指令
 rsync复制与同步的使用nginxday04
 分布式存储
 数据挖掘(分析工具)awk,sed
+
+创建root用户,拥有的权限755
+普通用户,拥有的权限022
+
+搭建linux后系统服务的准则:
+1.ip
+2.yum源
+3.selinux=0
+4.规则
+5.NTP时间同步
