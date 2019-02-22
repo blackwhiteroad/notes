@@ -1,0 +1,18 @@
+Resolve:Centos7 挂载NTFS文件系统（U盘、硬盘）
+命令行操作:
+1.去ntfs-3g的官网下载安装包:
+wget http://tuxera.com/opensource/ntfs-3g_ntfsprogs-2015.3.14.tgz
+2.解压ntfs-3g软件包
+tar -xvf ntfs-3g_ntfsprogs-2015.3.14.tgz 
+3.进入解压后的ntfs-3g文件夹内并进行编译安装
+cd ntfs-3g_ntfsprogs-2015.3.14/
+./configure && make && make install
+4.插上U盘或硬盘，使用fdisk -l命令，查看硬盘装置名称为sdc1（每台电脑都不一样，所以需要查看一下）
+fdisk -l
+5.挂载sdc1到/mnt
+mkdir /mnt/udisk
+mount -t ntfs-3g /dev/sdc1 /mnt/udisk
+6.查看挂载点下U盘（硬盘的文件）
+ls /mnt/udisk
+7.卸载U盘	//注意:卸载之前，务必退出挂载目录，否则报设备忙
+umout /mnt/udisk
